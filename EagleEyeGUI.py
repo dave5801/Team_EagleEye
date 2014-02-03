@@ -3,8 +3,10 @@ from PyQt4 import QtGui,QtCore
 
 '''
 Team Eagle Eye, GUI for Recieve-Only EarthStation
-Allows user to select from list of downloaded Satellite information
-This selection communicates azimuth and elevation to motor control, which tracks the Satellite
+Allows user to select from list of downloaded Satellite information,
+which can be uploaded to Orbitron (open sourced Satellite tracking software,
+http://www.stoff.pl) Additionally, this GUI will open a motor control interface
+developed by http://www.vk5dj.com/remote.html - which will control our antenna
 David Franklin, Senior Design, Embry-Riddle Aeronautical University
 Spring 2014
 '''
@@ -15,6 +17,10 @@ class EagleEye_GUI(QtGui.QWidget):
     def __init__(self):
         super(EagleEye_GUI, self).__init__()
         self.horizontalLayout = QtGui.QVBoxLayout(self)
+        
+        lbl1 = QtGui.QLabel('This label will eventually contain useful Satellite information including AZ/EL', self)
+        self.horizontalLayout.addWidget(lbl1)
+
         self.scrollArea = QtGui.QScrollArea(self)
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QtGui.QWidget()
@@ -25,24 +31,39 @@ class EagleEye_GUI(QtGui.QWidget):
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.satBtn = QtGui.QPushButton("Find Satellites")
 
-        #This will eventually cause the motor to perform callibration
-        #by tracking the sun
-        self.motorBtn = QtGui.QPushButton("Motor Callibration Test")
+        #This will eventually open Orbitron
+        self.OrbBtn = QtGui.QPushButton("Open Orbitron")
+
+        #This will eventually the Orbitron Interface
+        self.OrbIntBtn = QtGui.QPushButton("Open Motor Interface")
+        
         self.horizontalLayout.addWidget(self.scrollArea)
         self.horizontalLayout.addWidget(self.satBtn)
-        self.horizontalLayout.addWidget(self.motorBtn)
+        self.horizontalLayout.addWidget(self.OrbBtn)
+        self.horizontalLayout.addWidget(self.OrbIntBtn)
 
         #This will eventually trigger a web parser to get satellite data
-        self.connect(self.satBtn, QtCore.SIGNAL("clicked()"), self.addButtons)
+        self.satBtn.clicked.connect(self.findSats)
+        self.OrbBtn.clicked.connect(self.openOrb)
+        self.OrbIntBtn.clicked.connect(self.openInterface)
         self.setGeometry(300, 200, 500, 500)
         self.setWindowTitle('Team Eagle Eye: Recieve-Only EarthStation')
         
-
-    def addButtons(self):
+    #This will eventually parse an HTML page containing Satellite data and display as List
+    def findSats(self):
         for i in range(0, 50):
-            #This will eventually parse an HTML page containing Satellite data and display as List
+            
             self.r_button = QtGui.QPushButton("Satellite Name #### %s " % i)
             self.gridLayout.addWidget(self.r_button)
+
+    #This function will eventually open Orbitron        
+    def openOrb(self):
+        print ("This is where orbitron will open eventually")
+
+    #This function will eventually open the Orbitron Motor Control Interface
+    def openInterface(self):
+        print("This is where the motor interface will open eventually")
+
 def run():
 
     app = QtGui.QApplication(sys.argv)
