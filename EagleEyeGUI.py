@@ -18,8 +18,9 @@ class EagleEye_GUI(QtGui.QWidget):
         super(EagleEye_GUI, self).__init__()
         self.horizontalLayout = QtGui.QVBoxLayout(self)
         
-        lbl1 = QtGui.QLabel('This label will eventually display useful Satellite information including AZ/EL', self)
-        self.horizontalLayout.addWidget(lbl1)
+        satLabel = QtGui.QLabel('This label will eventually display useful Satellite information including AZ/EL', self)
+        self.horizontalLayout.addWidget(satLabel)
+        satLabel.setWordWrap(True)
 
         self.scrollArea = QtGui.QScrollArea(self)
         self.scrollArea.setWidgetResizable(True)
