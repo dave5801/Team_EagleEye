@@ -33,7 +33,7 @@ class EagleEye_GUI(QtGui.QWidget):
         self.satBtn = QtGui.QPushButton("Find Satellites")
 
         #This will eventually open Orbitron
-        self.OrbBtn = QtGui.QPushButton("Open Orbitron")
+        self.OrbBtn = QtGui.QPushButton("Orbit Model")
 
         #This will eventually the Orbitron Interface
         self.OrbIntBtn = QtGui.QPushButton("Open Motor Interface")
