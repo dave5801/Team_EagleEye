@@ -1,5 +1,6 @@
 import sys
 from PyQt4 import QtGui,QtCore
+#from heavens_above_parser import Parser
 
 '''
 Team Eagle Eye, GUI for Recieve-Only EarthStation
@@ -49,11 +50,15 @@ class EagleEye_GUI(QtGui.QWidget):
         self.OrbIntBtn.clicked.connect(self.openInterface)
         self.setGeometry(300, 200, 500, 500)
         self.setWindowTitle('Team Eagle Eye: Recieve-Only EarthStation')
+
+        #Parser parser = new Parser()
+        #parser = Parser()
         
     #This will eventually parse an HTML page containing Satellite data and display as List
     def findSats(self):
         for i in range(0, 50):
             
+            #parser
             self.r_button = QtGui.QPushButton("Satellite Name #### %s " % i)
             self.gridLayout.addWidget(self.r_button)
 
