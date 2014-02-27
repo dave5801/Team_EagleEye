@@ -10,7 +10,7 @@ import urllib2
 
 class Parser(object):
 
-	def __init__(self, url):
+	def __init__(self, url):	
 		self.url = url
 		self.contents  = ''
 

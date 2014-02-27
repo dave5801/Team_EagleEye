@@ -1,6 +1,6 @@
 import sys
 from PyQt4 import QtGui,QtCore
-#from heavens_above_parser import Parser
+from heavens_above_parser import Parser
 
 '''
 Team Eagle Eye, GUI for Recieve-Only EarthStation
@@ -51,16 +51,25 @@ class EagleEye_GUI(QtGui.QWidget):
         self.setGeometry(300, 200, 500, 500)
         self.setWindowTitle('Team Eagle Eye: Recieve-Only EarthStation')
 
-        #Parser parser = new Parser()
-        #parser = Parser()
+        #define parser class
+        self.url = url
+        self.parser = Parser(url)
+        parse_list = []  
+
         
     #This will eventually parse an HTML page containing Satellite data and display as List
     def findSats(self):
+
+        parse_list = self.parser.download_page()
+        print parse_list
+
         for i in range(0, 50):
             
-            #parser
-            self.r_button = QtGui.QPushButton("Satellite Name #### %s " % i)
+            
+            #self.r_button = QtGui.QPushButton("Satellite Name: %s " % parse_list[i])
+            self.r_button = QtGui.QPushButton(parse_list[i])
             self.gridLayout.addWidget(self.r_button)
+            self.r_button.clicked.connect(self.list_btn)
 
     #This function will eventually open Orbitron        
     def openOrb(self):
@@ -69,6 +78,10 @@ class EagleEye_GUI(QtGui.QWidget):
     #This function will eventually open the Orbitron Motor Control Interface
     def openInterface(self):
         print("This is where the motor interface will open eventually")
+    
+    #This function will eventually process TLE data through Sqlite    
+    def list_btn(self):
+        print("This is will access TLE eventually")
 
 def run():
 
@@ -78,4 +91,5 @@ def run():
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
+    url = "http://www.heavens-above.com/AllSats.aspx?lat=29.2108&lng=-81.0228&loc=Daytona+Beach&alt=4&tz=EST"
     run()
