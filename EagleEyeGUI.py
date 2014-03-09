@@ -54,22 +54,40 @@ class EagleEye_GUI(QtGui.QWidget):
         #define parser class
         self.url = url
         self.parser = Parser(url)
-        parse_list = []  
-
+        parse_list = [] 
+        self.tle_list = []
+        self.tle_line_o = ""
+        self.text_file = open("TLE_Output.txt", "w")
         
+        with open('Custom_TLE.txt') as f:
+            self.complete_tle = f.read().split('\r\n') 
+        
+        #print complete_tle
+
     #This will eventually parse an HTML page containing Satellite data and display as List
     def findSats(self):
 
         parse_list = self.parser.download_page()
-        print parse_list
+        #print parse_list
 
         for i in range(0, 50):
-            
-            
+                
             #self.r_button = QtGui.QPushButton("Satellite Name: %s " % parse_list[i])
             self.r_button = QtGui.QPushButton(parse_list[i])
             self.gridLayout.addWidget(self.r_button)
             self.r_button.clicked.connect(self.list_btn)
+            
+            
+            try:    
+                self.tle_line_o = "0 " + parse_list[i]
+            #print tle_line_o
+                
+
+            except ValueError:
+                print parse_list[i] + " not in the list"
+            except:
+                print "Unexpected Error"
+            self.text_file.close()
 
     #This function will eventually open Orbitron        
     def openOrb(self):
@@ -81,6 +99,17 @@ class EagleEye_GUI(QtGui.QWidget):
     
     #This function will eventually process TLE data through Sqlite    
     def list_btn(self):
+
+        index = self.complete_tle.index(self.tle_line_o)
+        zero_line, first_line, second_line = self.complete_tle[index:index+3]
+ 
+        self.tle_list.append(zero_line)
+        self.tle_list.append(first_line)
+        self.tle_list.append(second_line)
+
+        for item in self.tle_list:
+            self.text_file.write("%s\n" % item)
+
         print("This is will access TLE eventually")
 
 def run():

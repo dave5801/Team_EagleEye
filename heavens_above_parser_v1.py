@@ -25,6 +25,9 @@ class Parser(object):
 		page_list = []
 		sat_names = []
 
+		rocket_body = "R/B"
+		debris = "DEB"
+
 		#Store HTML table data into list
 		for page_data in page_find:
 			page_list.append(page_data.string)
@@ -35,6 +38,7 @@ class Parser(object):
 			sat_names.append(page_list[index])
 
 		return sat_names
+
 
 	#range function to count by 11s through the page's table data
 	#satellite names occur at specific location on table data and occur at every eleventh element
