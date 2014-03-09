@@ -1,6 +1,6 @@
 import sys
 from PyQt4 import QtGui,QtCore
-from heavens_above_parser import Parser
+from heavens_above_parser_class import Parser
 
 '''
 Team Eagle Eye, GUI for Recieve-Only EarthStation
