@@ -68,9 +68,10 @@ class EagleEye_GUI(QtGui.QWidget):
     def findSats(self):
 
         parse_list = self.parser.download_page()
-        #print parse_list
+        #parse_list.append('OSCAR 7')
+        print parse_list
 
-        for i in range(0, 50):
+        for i in range(len(parse_list)):
                 
             #self.r_button = QtGui.QPushButton("Satellite Name: %s " % parse_list[i])
             self.r_button = QtGui.QPushButton(parse_list[i])
@@ -87,7 +88,7 @@ class EagleEye_GUI(QtGui.QWidget):
                 print parse_list[i] + " not in the list"
             except:
                 print "Unexpected Error"
-            self.text_file.close()
+            #self.text_file.close()
 
     #This function will eventually open Orbitron        
     def openOrb(self):
@@ -110,6 +111,7 @@ class EagleEye_GUI(QtGui.QWidget):
         for item in self.tle_list:
             self.text_file.write("%s\n" % item)
 
+        self.text_file.close()
         print("This is will access TLE eventually")
 
 def run():

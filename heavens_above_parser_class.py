@@ -50,7 +50,8 @@ class Parser(object):
 				for cat, td in zip(categories, trs[1:]):
 					sat[cat] = td
 				#use regular expression to eliminated Rocket Bodies (R/B) and space debris(DEB)	
-				if not re.search(r'\s(R/B|DEB)\s*(?:\([^\)]+\))?\s*\Z', trs[0]):
+				#if not re.search(r'\s(R/B|DEB)\s*(?:\([^\)]+\))?\s*\Z', trs[0]):
+				if not re.search(r'\s(R/B|DEB)*(?:\([^\)]+\))?\s*\Z', trs[0]):
 					satellites[trs[0]] = sat
 
 		#get satellite names			
