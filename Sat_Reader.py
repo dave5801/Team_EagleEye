@@ -2,7 +2,7 @@ class Reader(object):
 
 	def __init__(self):	
 		self.contents  = ''
-
+		self.sat_name = 'COSMOS 1174'
 
 	def Read_TLE(self): 
 		
@@ -11,8 +11,7 @@ class Reader(object):
 
 		tle_list = []
 		zero = '0 '
-		sat = 'COSMOS 1174'
-		tle_line_o = zero + sat
+		tle_line_o = zero + self.sat_name
 		index = stuff.index(tle_line_o)
 
 		zero_line, first_line, second_line = stuff[index:index+3]
@@ -35,11 +34,8 @@ class Reader(object):
 		with open('Satellite_Database_Line_Limited-3.txt') as f:
 			bio_read = f.read().split('\r\n')
 
-		#print stuff
 		bio_list = []
-		#sat = 'BRIXAS'
-		bio_name = "TRMM"
-		index = bio_read.index(bio_name)
+		index = bio_read.index(self.sat_name)
 
 		line1, line2, line3 = bio_read[index:index+3]
  
@@ -54,7 +50,6 @@ if __name__ == '__main__':
 	list1 = []
 	Read1 = Reader()
 	list1 = Read1.Read_TLE()
-	#print list1
 	for i in range(len(list1)):
 		print list1[i]
 	print ' '
