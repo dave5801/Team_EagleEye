@@ -1,5 +1,6 @@
 import sys
 from PyQt4 import QtGui,QtCore
+from heavens_above_parser_class import Parser
 
 '''
 Team Eagle Eye, GUI for Recieve-Only EarthStation
@@ -33,7 +34,7 @@ class EagleEye_GUI(QtGui.QWidget):
         self.satBtn = QtGui.QPushButton("Find Satellites")
 
         #This will eventually open Orbitron
-        self.OrbBtn = QtGui.QPushButton("Open Orbitron")
+        self.OrbBtn = QtGui.QPushButton("Orbit Model")
 
         #This will eventually the Orbitron Interface
         self.OrbIntBtn = QtGui.QPushButton("Open Motor Interface")
@@ -49,13 +50,45 @@ class EagleEye_GUI(QtGui.QWidget):
         self.OrbIntBtn.clicked.connect(self.openInterface)
         self.setGeometry(300, 200, 500, 500)
         self.setWindowTitle('Team Eagle Eye: Recieve-Only EarthStation')
+
+        #define parser class
+        self.url = url
+        self.parser = Parser(url)
+        parse_list = [] 
+        self.tle_list = []
+        self.tle_line_o = ""
+        self.text_file = open("TLE_Output.txt", "w")
         
+        with open('Custom_TLE.txt') as f:
+            self.complete_tle = f.read().split('\r\n') 
+        
+        #print complete_tle
+
     #This will eventually parse an HTML page containing Satellite data and display as List
     def findSats(self):
-        for i in range(0, 50):
-            
-            self.r_button = QtGui.QPushButton("Satellite Name #### %s " % i)
+
+        parse_list = self.parser.download_page()
+        #parse_list.append('OSCAR 7')
+        print parse_list
+
+        for i in range(len(parse_list)):
+                
+            #self.r_button = QtGui.QPushButton("Satellite Name: %s " % parse_list[i])
+            self.r_button = QtGui.QPushButton(parse_list[i])
             self.gridLayout.addWidget(self.r_button)
+            self.r_button.clicked.connect(self.list_btn)
+            
+            
+            try:    
+                self.tle_line_o = "0 " + parse_list[i]
+            #print tle_line_o
+                
+
+            except ValueError:
+                print parse_list[i] + " not in the list"
+            except:
+                print "Unexpected Error"
+            #self.text_file.close()
 
     #This function will eventually open Orbitron        
     def openOrb(self):
@@ -64,6 +97,22 @@ class EagleEye_GUI(QtGui.QWidget):
     #This function will eventually open the Orbitron Motor Control Interface
     def openInterface(self):
         print("This is where the motor interface will open eventually")
+    
+    #This function will eventually process TLE data through Sqlite    
+    def list_btn(self):
+
+        index = self.complete_tle.index(self.tle_line_o)
+        zero_line, first_line, second_line = self.complete_tle[index:index+3]
+ 
+        self.tle_list.append(zero_line)
+        self.tle_list.append(first_line)
+        self.tle_list.append(second_line)
+
+        for item in self.tle_list:
+            self.text_file.write("%s\n" % item)
+
+        self.text_file.close()
+        print("This is will access TLE eventually")
 
 def run():
 
@@ -73,4 +122,5 @@ def run():
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
+    url = "http://www.heavens-above.com/AllSats.aspx?lat=29.2108&lng=-81.0228&loc=Daytona+Beach&alt=4&tz=EST"
     run()
