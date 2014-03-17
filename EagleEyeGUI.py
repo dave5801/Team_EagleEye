@@ -1,6 +1,7 @@
 import sys
 from PyQt4 import QtGui,QtCore
 from heavens_above_parser_class import Parser
+from Sat_Reader import Reader
 
 '''
 Team Eagle Eye, GUI for Recieve-Only EarthStation
@@ -14,7 +15,7 @@ Spring 2014
 
 #basic layout idea from http://stackoverflow.com/questions/6792862/pyqt-qscrollarea-not-scrolling
 
-class EagleEye_GUI(QtGui.QWidget):
+class EagleEye_GUI(QtGui.QWidget, Reader):
     def __init__(self):
         super(EagleEye_GUI, self).__init__()
         self.horizontalLayout = QtGui.QVBoxLayout(self)
@@ -58,11 +59,12 @@ class EagleEye_GUI(QtGui.QWidget):
         self.tle_list = []
         self.tle_line_o = ""
         self.text_file = open("TLE_Output.txt", "w")
+        self.name = ' '
         
         with open('Custom_TLE.txt') as f:
             self.complete_tle = f.read().split('\r\n') 
         
-        #print complete_tle
+        #print self.complete_tle
 
     #This will eventually parse an HTML page containing Satellite data and display as List
     def findSats(self):
@@ -101,18 +103,24 @@ class EagleEye_GUI(QtGui.QWidget):
     #This function will eventually process TLE data through Sqlite    
     def list_btn(self):
 
-        index = self.complete_tle.index(self.tle_line_o)
-        zero_line, first_line, second_line = self.complete_tle[index:index+3]
+        #index = self.complete_tle.index(self.tle_line_o)
+        #zero_line, first_line, second_line = self.complete_tle[index:index+3]
  
-        self.tle_list.append(zero_line)
-        self.tle_list.append(first_line)
-        self.tle_list.append(second_line)
+        #self.tle_list.append(zero_line)
+        #self.tle_list.append(first_line)
+        #self.tle_list.append(second_line)
 
-        for item in self.tle_list:
-            self.text_file.write("%s\n" % item)
+        #for item in self.tle_list:
+         #   self.text_file.write("%s\n" % item)
 
-        self.text_file.close()
-        print("This is will access TLE eventually")
+        #self.text_file.close()
+        sender = self.sender()
+        sat_string = sender.text()
+        #print sat_string
+        print ' '
+        print (self.Read_TLE(sat_string))
+        print (self.SAT_BIO(sat_string))
+        #print("This is will access TLE eventually")
 
 def run():
 

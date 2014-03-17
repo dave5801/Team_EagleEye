@@ -1,0 +1,399 @@
+BRIXAS
+GER	
+No Data Available
+	
+ADEOS 2
+JPN	
+Earth Observation Satellite
+
+AMSAT ECHO
+US
+Amatuer Satellite
+
+AMSAT OSCAR 40
+GER	
+Amatuer Satellite
+
+ASTRO E2
+JPN	
+X-Ray Astronomy Satellite
+
+COSMOS 1174
+CIS	
+Soviet ASAT Interceptor
+
+COSMOS 1300
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 1315
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 1400
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 1437
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 1500
+CIS	
+Russian Oceanographic Satellite
+
+COSMOS 1606
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 1607
+CIS	
+Soviet Radar Ocean Reconnaissance Satellite
+
+COSMOS 1626
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 1633
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 1703
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 1782
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 1825
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 1833
+CIS	
+Soviet ELINT Satellite
+	
+COSMOS 1842
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 1844
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 1862
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 1869
+CIS	
+Soviet Oceanographic Satellite
+
+COSMOS 1892
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 1943
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 2219
+CIS	
+Soviet ELINT Satellite
+	
+COSMOS 2242
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 2263
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 2278
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 2297
+CIS	
+Soviet ELINT Satellite
+
+COSMOS 2369
+CIS	
+Russian Military Communications
+
+COSMOS 2406
+CIS	
+Russian ELINT Satellite
+
+COSMOS 405
+CIS	
+Russian ELINT Satellite
+
+COSMOS 44
+CIS	
+Russian Experimental Meteorological Satellite
+
+COSMOS 482
+CIS	
+Attempted Venus Probe
+
+CRYOSAT 2
+ESA	
+Environmental Research Satellite
+
+ERS 2
+ESA	
+Remote Sensing Satellite
+
+FREGAT/IRIS
+CIS	
+Russian Technology Demonstration Satellite
+
+GENESIS 1
+US	
+Experimental Space Satellite
+
+GEOSAT
+US 	
+Earth Observation Satellite
+
+HALCA (MUSES B)
+JPN	
+Highly Advanced Lab for Communications and Astronomy
+	
+HAMSAT
+IND	
+Amateur Satellite
+	
+HST
+US	
+Hubble Telescope
+
+IDEFIX/ARIANE 42P
+FR	
+NO Data Available
+
+INTERCOSMOS 22
+CIS	
+Bulgarian Experiment Satellite
+
+ITAMSAT
+IT	
+Amateur Satellite
+
+IUS DEB
+US	
+No Data Available
+
+JAS 1B (FUJI 2)
+JPN	
+Amateur Satellite
+
+JAS 2
+JPN	
+Amateur Satellite
+
+KITSAT B
+SKOR	
+No Data Available
+
+MASAT-1
+HUN	
+Experimental Nanonsatellite
+
+MDS 1
+JPN	
+Mission Demonstration Test Satellite
+	
+MEGSAT 1
+IT	
+Italian Communications Satellite
+
+METEOR 2-15
+CIS	
+No Data Available
+
+MONITOR-E 1
+CIS	
+Earth Observation Satellite
+
+MONITOR-E/SL-19	
+CIS	
+Earth Observation Satellite
+
+MOZ.5/SAFIR/RUBIN 5/SL-8
+GER	
+Space Junk
+
+MSX
+US	
+Ballistic Missle Defense Organization Satellite
+
+NOAA 12
+US	
+Weather Satellite
+
+OKEAN 3
+CIS	
+Weather Satellite
+
+OKEAN 4
+CIS	
+Weather Satellite
+
+OPAL
+US	
+Experimental Nanonsatellite
+
+OSCAR 10
+GER	
+Amateur Satellite
+
+OSCAR 11 (UoSAT 2)		
+UK	
+Amateur Satellite
+
+OSCAR 16 (PACSAT)		
+US	
+Amateur Satellite
+
+OSCAR 19 (LUSAT)		
+ARGN	
+Amateur Satellite
+
+OSCAR 22 (UoSAT 5)
+UK	
+Amateur Satellite
+
+OSCAR 23 (KITSAT 1)
+SKOR	
+Amateur Satellite
+
+OSCAR 36 (UOSAT 12)
+UK	
+Amateur Satellite
+
+OSCAR 7
+US	
+Amateur Satellite
+
+PAN SAT
+US	
+Petiete Amatuer Navy Satellite
+
+PCSAT
+US	
+Amateur Satellite
+
+POSAT 1
+POR	
+Experimental Nanonsatellite
+
+RADIO ROSTO
+CIS	
+Russian Communication Satellite
+
+RESURS DK-1
+CIS	
+Earth Observation Satellite
+
+SAPPHIRE			
+US	
+Space Surveillance Satellite
+
+SAUDISAT 1C
+SAUD	
+Amateur Satellite
+
+SEASAT 1
+US	
+Remote Ocean Sensing Satellite
+
+SJ-12
+PRC	
+Research Satellite for Rendezvous and Satellite Inspection
+
+SKYMED 1
+IT	
+Military and Civilian Imaging Satellite
+
+SKYMED 2			
+IT	
+Military and Civilian Imaging Satellite
+
+STRAND 1
+UK	
+Smartphone Nanosatellite
+
+SUMBANDILA
+SAFR	
+Experimental Satellite
+
+TECHSAT 1B
+ISRA	
+Experimental Satellite
+
+TIANGONG 1
+PRC	
+Chinas Space Station
+	
+TMSAT
+THAI	
+Experimental Satellite
+
+TRMM
+US	
+Tropical Rainfall Measurement
+
+USA 121
+US	
+Ocean Survelliance
+
+USA 122
+US	
+Ocean Survelliance
+
+USA 123
+US	
+Experimetnal Satellite
+
+USA 143
+US	
+COMSAT
+
+USA 173
+US	
+Naval Reconnaissance
+
+USA 182
+US	
+Radar Reconnaissance
+
+USA 194
+US	
+Naval Reconnaissance
+
+USA 229
+US	
+SIGINT
+
+USA 234				
+US	
+Radar Imaging
+		
+USA 238
+US	
+Survelliance
+
+USA 32
+US	
+US Military SIGNT
+
+USA 74
+US	
+Ocean Survelliance
+
+USA 76
+US	
+Ocean Survelliance
