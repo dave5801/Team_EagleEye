@@ -13,7 +13,13 @@ class Example(QtGui.QMainWindow, Reader):
         
     def initUI(self):      
 
-        parse_list = []    
+        parse_list = []   
+
+        self.horizontalLayout = QtGui.QVBoxLayout(self)
+        
+        self.satLabel = QtGui.QLabel('Hello World', self)
+        self.horizontalLayout.addWidget(self.satLabel)
+        self.satLabel.setWordWrap(True)
 
         btn1 = QtGui.QPushButton("Button 1", self)
         btn1.move(30, 50)
@@ -27,6 +33,7 @@ class Example(QtGui.QMainWindow, Reader):
      #supposed to call web parser when button is pressed   
     def buttonClicked(self):
   
+        self.satLabel.setText('Label Change')
 
         sender = self.sender()
         self.statusBar().showMessage(sender.text() + ' was pressed')

@@ -20,9 +20,9 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
         super(EagleEye_GUI, self).__init__()
         self.horizontalLayout = QtGui.QVBoxLayout(self)
         
-        satLabel = QtGui.QLabel('This label will eventually display useful Satellite information including AZ/EL', self)
-        self.horizontalLayout.addWidget(satLabel)
-        satLabel.setWordWrap(True)
+        self.satLabel = QtGui.QLabel('', self)
+        self.horizontalLayout.addWidget(self.satLabel)
+        self.satLabel.setWordWrap(True)
 
         self.scrollArea = QtGui.QScrollArea(self)
         self.scrollArea.setWidgetResizable(True)
@@ -35,19 +35,19 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
         self.satBtn = QtGui.QPushButton("Find Satellites")
 
         #This will eventually open Orbitron
-        self.OrbBtn = QtGui.QPushButton("Orbit Model")
+        #self.OrbBtn = QtGui.QPushButton("Orbit Model")
 
         #This will eventually the Orbitron Interface
         self.OrbIntBtn = QtGui.QPushButton("Open Motor Interface")
         
         self.horizontalLayout.addWidget(self.scrollArea)
         self.horizontalLayout.addWidget(self.satBtn)
-        self.horizontalLayout.addWidget(self.OrbBtn)
+        #self.horizontalLayout.addWidget(self.OrbBtn)
         self.horizontalLayout.addWidget(self.OrbIntBtn)
 
         #This will eventually trigger a web parser to get satellite data
         self.satBtn.clicked.connect(self.findSats)
-        self.OrbBtn.clicked.connect(self.openOrb)
+        #self.OrbBtn.clicked.connect(self.openOrb)
         self.OrbIntBtn.clicked.connect(self.openInterface)
         self.setGeometry(300, 200, 500, 500)
         self.setWindowTitle('Team Eagle Eye: Recieve-Only EarthStation')
@@ -93,8 +93,8 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
             #self.text_file.close()
 
     #This function will eventually open Orbitron        
-    def openOrb(self):
-        print ("This is where orbitron will open eventually")
+    #def openOrb(self):
+     #   print ("This is where orbitron will open eventually")
 
     #This function will eventually open the Orbitron Motor Control Interface
     def openInterface(self):
@@ -102,24 +102,27 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
     
     #This function will eventually process TLE data through Sqlite    
     def list_btn(self):
-
-        #index = self.complete_tle.index(self.tle_line_o)
-        #zero_line, first_line, second_line = self.complete_tle[index:index+3]
- 
-        #self.tle_list.append(zero_line)
-        #self.tle_list.append(first_line)
-        #self.tle_list.append(second_line)
-
-        #for item in self.tle_list:
-         #   self.text_file.write("%s\n" % item)
-
-        #self.text_file.close()
+     
         sender = self.sender()
         sat_string = sender.text()
+        
+        try:
         #print sat_string
-        print ' '
-        print (self.Read_TLE(sat_string))
-        print (self.SAT_BIO(sat_string))
+            print ' '
+            tle_label = self.Read_TLE(sat_string)
+            bio_label = self.SAT_BIO(sat_string)
+            #self.satLabel.setText(bio_label[0] + ' is a ' +bio_label[1]+bio_label[2])
+            self.satLabel.setText('Satellite: ' +bio_label[0] + '\nCountry: ' +bio_label[1]+ '\nPurpose: ' +bio_label[2])
+            #print tle_string
+            print bio_label[0]
+            print bio_label[1]
+            print bio_label[2]
+        except ValueError:
+                print sat_string + " not in the list"
+                self.satLabel.setText('No Two Line Element data available. Please Try again')
+
+        except:
+            print "Unexpected Error"
         #print("This is will access TLE eventually")
 
 def run():
