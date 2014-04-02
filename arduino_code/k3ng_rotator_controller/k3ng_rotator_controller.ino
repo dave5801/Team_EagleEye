@@ -902,8 +902,8 @@ void setup() {
 
 void loop() {
   
-  int elevation2 = elevation_lsm;
-  int azimuth2 = azimuth_lsm;
+  int elevation2 = elevation_pot;
+  int azimuth2 = azimuth_pot;
   
   check_serial();
   read_headings();
