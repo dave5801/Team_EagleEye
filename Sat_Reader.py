@@ -1,3 +1,5 @@
+import os.path
+
 class Reader(object):
 
 	def __init__(self):	
@@ -7,12 +9,14 @@ class Reader(object):
 	def Read_TLE(self,sat_name): 
 		
 		#with open('Custom_TLE.txt') as f:
-		with open('Current_TLE.txt') as f:
+		with open('Custom_TLE.txt') as f:
 			tle_reader = f.read().replace('\r', '').split("\n")
 			
-			#print tle_reader
-        
-
+        #write TLE text file to SATPC32
+		sat_pc_path = 'C:\Users\TeamEagleEye\AppData\Roaming\SatPC32\Kepler'
+		file_name = os.path.join(sat_pc_path, "TLE_Output.txt")
+		
+		#add a 0 to satellite name to parse the actual text file 
 		tle_list = []
 		zero = "0 "
 		tle_line_o = zero + sat_name
@@ -24,7 +28,7 @@ class Reader(object):
 		tle_list.append(first_line)
 		tle_list.append(second_line)
 
-		text_file = open("TLE_Output.txt", "w")
+		text_file = open(file_name, "w")
 
 		for item in tle_list:
 			text_file.write("%s\n" % item)
@@ -54,6 +58,7 @@ class Reader(object):
 
 if __name__ == '__main__':
 
+	#test case
 	sat = "TRMM"
 	list1 = []
 	Read1 = Reader()

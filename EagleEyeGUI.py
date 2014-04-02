@@ -7,14 +7,12 @@ import subprocess
 '''
 Team Eagle Eye, GUI for Recieve-Only EarthStation
 Allows user to select from list of downloaded Satellite information,
-which can be uploaded to Orbitron (open sourced Satellite tracking software,
-http://www.stoff.pl) Additionally, this GUI will open a motor control interface
+which can be uploaded to SATPC32 (open sourced Satellite tracking software,
+http://www.dk1tb.de/) Additionally, this GUI will open a motor control interface
 developed by http://www.vk5dj.com/remote.html - which will control our antenna
 David Franklin, Senior Design, Embry-Riddle Aeronautical University
 Spring 2014
 '''
-
-#basic layout idea from http://stackoverflow.com/questions/6792862/pyqt-qscrollarea-not-scrolling
 
 class EagleEye_GUI(QtGui.QWidget, Reader):
     def __init__(self):
@@ -38,18 +36,16 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
         #This will eventually open Orbitron
         #self.OrbBtn = QtGui.QPushButton("Orbit Model")
 
-        #This will eventually the Orbitron Interface
-        self.OrbIntBtn = QtGui.QPushButton("Open Motor Interface")
+        #This will eventually the motor control Interface
+        #self.OrbIntBtn = QtGui.QPushButton("Open Motor Interface")
         
         self.horizontalLayout.addWidget(self.scrollArea)
         self.horizontalLayout.addWidget(self.satBtn)
-        #self.horizontalLayout.addWidget(self.OrbBtn)
-        self.horizontalLayout.addWidget(self.OrbIntBtn)
+        #self.horizontalLayout.addWidget(self.OrbIntBtn)
 
         #This will eventually trigger a web parser to get satellite data
         self.satBtn.clicked.connect(self.findSats)
-        #self.OrbBtn.clicked.connect(self.openOrb)
-        self.OrbIntBtn.clicked.connect(self.openInterface)
+        #self.OrbIntBtn.clicked.connect(self.openInterface)
         self.setGeometry(300, 200, 500, 500)
         self.setWindowTitle('Team Eagle Eye: Recieve-Only EarthStation')
 
@@ -62,21 +58,17 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
         self.text_file = open("TLE_Output.txt", "w")
         self.name = ' '
         
-        #with open('Custom_TLE.txt') as f:
-          #  self.complete_tle = f.read().split('\r\n') 
-        
-        #print self.complete_tle
 
-    #This will eventually parse an HTML page containing Satellite data and display as List
+    #This parses an HTML page containing Satellite data and display as List
     def findSats(self):
 
         parse_list = self.parser.download_page()
-        #parse_list.append('OSCAR 7')
+        
         print parse_list
 
+        #populate list of buttons with satellites
         for i in range(len(parse_list)):
                 
-            #self.r_button = QtGui.QPushButton("Satellite Name: %s " % parse_list[i])
             self.r_button = QtGui.QPushButton(parse_list[i])
             self.gridLayout.addWidget(self.r_button)
             self.r_button.clicked.connect(self.list_btn)
@@ -84,22 +76,17 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
             
             try:    
                 self.tle_line_o = "0 " + parse_list[i]
-            #print tle_line_o
-                
-
+            
             except ValueError:
                 print parse_list[i] + " not in the list"
             except:
                 print "Unexpected Error"
-            #self.text_file.close()
-
-    #This function will eventually open Orbitron        
-    #def openOrb(self):
-     #   print ("This is where orbitron will open eventually")
+            
+    
 
     #This function will eventually open the Orbitron Motor Control Interface
-    def openInterface(self):
-        print("This is where the motor interface will open eventually")
+    #def openInterface(self):
+     #   print("This is where the motor interface will open eventually")
     
     #This function will eventually process TLE data through Sqlite    
     def list_btn(self):
@@ -107,14 +94,13 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
         sender = self.sender()
         sat_string = sender.text()
         
+        #Get TLE info and basic info to confirm Satellite's identity
         try:
             print sat_string
             print ' '
             tle_label = self.Read_TLE(sat_string)
             bio_label = self.SAT_BIO(sat_string)
-            #self.satLabel.setText(bio_label[0] + ' is a ' +bio_label[1]+bio_label[2])
             self.satLabel.setText('Satellite: ' +bio_label[0] + '\nCountry: ' +bio_label[1]+ '\nPurpose: ' +bio_label[2])
-            #print tle_string
             print bio_label[0]
             print bio_label[1]
             print bio_label[2]
@@ -125,6 +111,8 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
         except:
             print "Unexpected Error"
         print("TEST")
+
+        #open SATPC32 executable file
         subprocess.call(["C:\Program Files (x86)\SatPC32\SatPC32.exe"])
 
 def run():
