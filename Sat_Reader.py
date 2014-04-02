@@ -6,11 +6,15 @@ class Reader(object):
 
 	def Read_TLE(self,sat_name): 
 		
-		with open('Custom_TLE.txt') as f:
-			tle_reader = f.read().split('\r\n')
+		#with open('Custom_TLE.txt') as f:
+		with open('Current_TLE.txt') as f:
+			tle_reader = f.read().replace('\r', '').split("\n")
+			
+			#print tle_reader
+        
 
 		tle_list = []
-		zero = '0 '
+		zero = "0 "
 		tle_line_o = zero + sat_name
 		index = tle_reader.index(tle_line_o)
 
@@ -31,8 +35,10 @@ class Reader(object):
 
 	def SAT_BIO(self, sat_name): 
 		
-		with open('Satellite_Database_Line_Limited-3.txt') as f:
-			bio_read = f.read().split('\r\n')
+		with open("Satellite_Database_Line_Limited-3.txt") as f:
+			#bio_read = f.read().split("\r\n")
+			bio_read = f.read().replace('\r', '').split("\n")
+			#print bio_read
 
 		bio_list = []
 		index = bio_read.index(sat_name)
@@ -44,14 +50,16 @@ class Reader(object):
 		bio_list.append(line3)
 
 		return bio_list
-'''
+
+
 if __name__ == '__main__':
 
+	sat = "TRMM"
 	list1 = []
 	Read1 = Reader()
-	list1 = Read1.Read_TLE()
+	list1 = Read1.Read_TLE(sat)
 	for i in range(len(list1)):
 		print list1[i]
 	print ' '
-	print Read1.SAT_BIO()
-	'''
+	print Read1.SAT_BIO(sat)
+	

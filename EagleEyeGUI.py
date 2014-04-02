@@ -2,6 +2,7 @@ import sys
 from PyQt4 import QtGui,QtCore
 from heavens_above_parser_class import Parser
 from Sat_Reader import Reader
+import subprocess
 
 '''
 Team Eagle Eye, GUI for Recieve-Only EarthStation
@@ -61,8 +62,8 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
         self.text_file = open("TLE_Output.txt", "w")
         self.name = ' '
         
-        with open('Custom_TLE.txt') as f:
-            self.complete_tle = f.read().split('\r\n') 
+        #with open('Custom_TLE.txt') as f:
+          #  self.complete_tle = f.read().split('\r\n') 
         
         #print self.complete_tle
 
@@ -107,7 +108,7 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
         sat_string = sender.text()
         
         try:
-        #print sat_string
+            print sat_string
             print ' '
             tle_label = self.Read_TLE(sat_string)
             bio_label = self.SAT_BIO(sat_string)
@@ -123,7 +124,8 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
 
         except:
             print "Unexpected Error"
-        #print("This is will access TLE eventually")
+        print("TEST")
+        subprocess.call(["C:\Program Files (x86)\SatPC32\SatPC32.exe"])
 
 def run():
 
