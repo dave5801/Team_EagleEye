@@ -1,14 +1,24 @@
+'''
+Team EagleEye, Class for parsing TLE data and returning satellite name, country, and purpose
+
+David Franklin
+Spring 2014
+'''
+
 import os.path
 
+#main class
 class Reader(object):
 
+	#constructor
 	def __init__(self):	
 		self.contents  = ''
 		
 
+	#read TLE from a custom textfile
 	def Read_TLE(self,sat_name): 
 		
-		#with open('Custom_TLE.txt') as f:
+		#read in TLE master list
 		with open('Custom_TLE.txt') as f:
 			tle_reader = f.read().replace('\r', '').split("\n")
 			
@@ -22,12 +32,14 @@ class Reader(object):
 		tle_line_o = zero + sat_name
 		index = tle_reader.index(tle_line_o)
 
+		#get TLE_list
 		zero_line, first_line, second_line = tle_reader[index:index+3]
  
 		tle_list.append(zero_line)
 		tle_list.append(first_line)
 		tle_list.append(second_line)
 
+		#write to text file
 		text_file = open(file_name, "w")
 
 		for item in tle_list:
@@ -37,8 +49,10 @@ class Reader(object):
 
 		return tle_list
 
+	#get satellite name, country, purpose
 	def SAT_BIO(self, sat_name): 
 		
+		#open textfile which contains the list
 		with open("Satellite_Database_Line_Limited-3.txt") as f:
 			#bio_read = f.read().split("\r\n")
 			bio_read = f.read().replace('\r', '').split("\n")
@@ -47,6 +61,7 @@ class Reader(object):
 		bio_list = []
 		index = bio_read.index(sat_name)
 
+		#return text lines for name, country, purpose
 		line1, line2, line3 = bio_read[index:index+3]
  
 		bio_list.append(line1)
