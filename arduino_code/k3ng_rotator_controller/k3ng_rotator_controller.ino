@@ -1,3 +1,4 @@
+
 /* Arduino Rotator Controller "2.0 Edition"
    Anthony Good
    K3NG
@@ -279,6 +280,7 @@ LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 #include <Wire.h>
 #include <C:\Users\Rick\Desktop\rotator_from_matt_comp_got_working with_lsm_and_serial\k3ng_rotator_controller\LSM303.h>
+#include <MatrixMath.h>
 
 
 LSM303 lsm;
@@ -660,6 +662,8 @@ int azimuth_lsm = 0;
 int elevation_pot = 0;
 int elevation_lsm = 0;
 
+int new_azimuth = 0;
+int new_elevation = 0;
 
 
 /////////
@@ -3984,6 +3988,119 @@ void read_azimuth(){
   
 }
 
+
+//// new function to compute new az,el coordinate///
+
+
+void correctCoord(float azimuth, float elevation, float elevAcc, float rollAcc)
+{
+ 
+  float azDeg = azimuth;
+  float elDeg = elevation;
+  float z = 0.001;
+  
+  float elevAccel = elevAcc * (PI/180);
+  float rollAccel = rollAcc * (PI/180);
+  
+  float desiredAz = azDeg * (PI/180);
+  float desiredEl = elDeg * (PI/180);
+  float desiredZ = z ;
+  
+ float desiredDeg[1][3] = {azDeg, elDeg, z};
+  
+  float desZCart = z * sin(desiredEl);
+  float rcoselev = z * cos(desiredEl);
+  float desXCart = rcoselev * cos(desiredAz);
+  float desYCart = rcoselev * sin(desiredAz);
+  
+  
+  float desiredCart[1][3] = {desXCart,desYCart,desZCart};
+  float desiredCartT[3][1];
+  Matrix.Transpose((float*)desiredCart,1,3,(float*)desiredCartT);
+  
+  //roll x 
+  //elev y
+ // z is 0
+  float dcm[3][3] = {
+    
+   {cos(rollAccel)*cos(0)-sin(rollAccel)*sin(elevAccel)*sin(0), cos(rollAccel)*sin(0)+sin(rollAccel)*sin(elevAccel)*cos(0), -1*sin(rollAccel)*cos(elevAccel)},
+   {-sin(0)*cos(elevAccel),cos(0)*cos(elevAccel),sin(elevAccel)},
+   {sin(rollAccel)*cos(0)+cos(rollAccel)*sin(elevAccel)*sin(0), sin(rollAccel)*sin(0)-cos(rollAccel)*sin(elevAccel)*cos(0), cos(rollAccel)*cos(elevAccel)}
+   
+  };
+  
+  (float*) dcm;
+  float projMat[3][1];
+  Matrix.Multiply((float*)dcm,(float*)desiredCartT,3,3,1, (float*)projMat);
+  
+  
+  float proj2sphAz = atan2(projMat[2][1],projMat[1][1]);
+  float proj2sphEL = atan2(projMat[3][1],sqrt(pow(projMat[1][1],2)+ pow(projMat[2][1],2)));
+  float proj2sphZ = sqrt(square((sqrt(square(projMat[1][1]) + square(projMat[2][1])))) + square(projMat[3][1]));
+  
+ float newSphCoords[1][3] = {proj2sphAz, proj2sphEL, proj2sphZ};
+ 
+ float newSphCoordsDeg[1][3];
+ float piArray[1][1];
+ piArray[1][1] = float (180/PI);
+ Matrix.Multiply((float*)newSphCoords,(float*) piArray,1,3,1,(float*)newSphCoordsDeg);
+ 
+ float diffSphCoords[1][3];
+ float desiredCoords[1][3] = {desiredAz,desiredEl,desiredZ};
+ 
+ Matrix.Subtract((float*)newSphCoords, (float*)desiredCoords, 1,3, (float*)diffSphCoords);
+ 
+ float diffSphCoordsDeg[1][3];
+ Matrix.Multiply((float*)diffSphCoords,(float*)piArray,1,3,3,(float*)diffSphCoordsDeg);
+ 
+ float newCoordsToUse[1][3];
+ 
+ Matrix.Subtract((float*)desiredDeg, (float*)diffSphCoordsDeg,1,3,(float*)newCoordsToUse);
+ 
+ 
+ for (int n=3; n>0; n--) {
+ 
+    
+  
+    if (newCoordsToUse[1][n] > 360 ){
+        newCoordsToUse[1][n]  = newCoordsToUse[1][n]  - 360;
+        
+        if (newCoordsToUse[1][n] > 360) {
+          
+        newCoordsToUse[1][n]  = newCoordsToUse[1][n]  - 360;
+        
+        }
+        
+    }
+    
+    if (newCoordsToUse[1][n]  < 0 ){
+        newCoordsToUse[1][n]  = newCoordsToUse[1][n]  + 360;
+        
+        if (newCoordsToUse[1][n]  < 0 ){
+        newCoordsToUse[1][n]  = newCoordsToUse[1][n]  + 360;
+        
+         }
+        
+    }
+    
+    if ((newCoordsToUse[1][n]  > 359.999) && (newCoordsToUse[1][n]  < 360.001)){
+        
+        newCoordsToUse[1][n]  = 0;
+    }
+        
+
+ 
+ }
+  
+  
+  
+  new_azimuth = (int)newCoordsToUse[1][1];
+  new_elevation = (int)newCoordsToUse[1][2];
+  
+  
+  
+  
+}
 //--------------------------------------------------------------
 
 void output_debug()
