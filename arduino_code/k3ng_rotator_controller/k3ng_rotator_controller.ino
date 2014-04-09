@@ -1,4 +1,6 @@
 
+
+
 /* Arduino Rotator Controller "2.0 Edition"
    Anthony Good
    K3NG
@@ -906,16 +908,31 @@ void setup() {
 
 void loop() {
   
-  int elevation2 = elevation_pot;
-  int azimuth2 = azimuth_pot;
+  int elevation2 = elevation_lsm;
+  int azimuth2 = azimuth_lsm;
   
   check_serial();
   read_headings();
   
+  
   azimuth = azimuth2;
   elevation = elevation2;
  
+ ///// for testing the new correct Coord Func.///
+  correctCoord((float) 0, (float) 90, (float) elevation_lsm, (float) roll);
   
+Serial.println("New Azimuth Coord");
+ Serial.println(new_azimuth);
+  Serial.println("New Elevation Coord");
+ Serial.println(new_elevation);
+ 
+ Serial.println("elev from lsm");
+ Serial.println((float)elevation_lsm);
+  Serial.println("roll from lsm");
+ Serial.println((float)roll);
+  
+  
+  //////////////////
   #ifndef FEATURE_REMOTE_UNIT_SLAVE
   service_request_queue();
   service_rotation();
@@ -4006,6 +4023,9 @@ void correctCoord(float azimuth, float elevation, float elevAcc, float rollAcc)
   float desiredEl = elDeg * (PI/180);
   float desiredZ = z ;
   
+  ////
+  
+ 
  float desiredDeg[1][3] = {azDeg, elDeg, z};
   
   float desZCart = z * sin(desiredEl);
@@ -4014,48 +4034,81 @@ void correctCoord(float azimuth, float elevation, float elevAcc, float rollAcc)
   float desYCart = rcoselev * sin(desiredAz);
   
   
-  float desiredCart[1][3] = {desXCart,desYCart,desZCart};
-  float desiredCartT[3][1];
-  Matrix.Transpose((float*)desiredCart,1,3,(float*)desiredCartT);
+  float desiredCart[3][1] = {desXCart,desYCart,desZCart};
+  //float desiredCartT[3][1];
+  //Matrix.Transpose((float*)desiredCart,1,3,(float*)desiredCartT);
   
   //roll x 
   //elev y
  // z is 0
   float dcm[3][3] = {
     
-   {cos(rollAccel)*cos(0)-sin(rollAccel)*sin(elevAccel)*sin(0), cos(rollAccel)*sin(0)+sin(rollAccel)*sin(elevAccel)*cos(0), -1*sin(rollAccel)*cos(elevAccel)},
+   {cos(rollAccel)*cos(0)-sin(rollAccel)*sin(elevAccel)*sin(0), cos(rollAccel)*sin(0)+sin(rollAccel)*sin(elevAccel)*cos(0), -sin(rollAccel)*cos(elevAccel)},
    {-sin(0)*cos(elevAccel),cos(0)*cos(elevAccel),sin(elevAccel)},
    {sin(rollAccel)*cos(0)+cos(rollAccel)*sin(elevAccel)*sin(0), sin(rollAccel)*sin(0)-cos(rollAccel)*sin(elevAccel)*cos(0), cos(rollAccel)*cos(elevAccel)}
    
   };
   
+  
   (float*) dcm;
+  
+  
+  ////testing
+  String labelDCM = "DCM";
+  Matrix.Print((float*)dcm,3,3,labelDCM);
+  
+  //////////////
+  
+  
+  
   float projMat[3][1];
-  Matrix.Multiply((float*)dcm,(float*)desiredCartT,3,3,1, (float*)projMat);
+  Matrix.Multiply((float*)dcm,(float*)desiredCart,3,3,1, (float*)projMat);
+  
+  /////testing
+  String labelProjMat = "projMat";
+  Matrix.Print((float*) projMat,3,1,labelProjMat);
+  /////////
   
   
   float proj2sphAz = atan2(projMat[2][1],projMat[1][1]);
-  float proj2sphEL = atan2(projMat[3][1],sqrt(pow(projMat[1][1],2)+ pow(projMat[2][1],2)));
+  float proj2sphEL = atan2(projMat[3][1],sqrt(square(projMat[1][1])+ square(projMat[2][1])));
   float proj2sphZ = sqrt(square((sqrt(square(projMat[1][1]) + square(projMat[2][1])))) + square(projMat[3][1]));
   
  float newSphCoords[1][3] = {proj2sphAz, proj2sphEL, proj2sphZ};
  
+ /////testing purposes
+ String label1 = "newSphCoords";
+ Matrix.Print((float*) newSphCoords,1,3,label1);
+ /////
  float newSphCoordsDeg[1][3];
- float piArray[1][1];
- piArray[1][1] = float (180/PI);
- Matrix.Multiply((float*)newSphCoords,(float*) piArray,1,3,1,(float*)newSphCoordsDeg);
+ 
+ newSphCoordsDeg[1][1] = newSphCoords[1][1] * float (180/PI);
+ newSphCoordsDeg[1][2] = newSphCoords[1][2] * float (180/PI);
+ newSphCoordsDeg[1][3] = newSphCoords[1][3] * float (180/PI);
+ //float piArray[1][1];
+ 
+ ////testing purposes
+ Serial.println("New Az");
+ Serial.println((int)newSphCoordsDeg[1][1]);
+ Serial.println("New El");
+ Serial.println((int)newSphCoordsDeg[1][2]);
+ 
+ /////////
+ 
+ //piArray[1][1] = float (180/PI);
+ //Matrix.Scale((float*)newSphCoords,1,3, float (180/PI));
  
  float diffSphCoords[1][3];
  float desiredCoords[1][3] = {desiredAz,desiredEl,desiredZ};
  
  Matrix.Subtract((float*)newSphCoords, (float*)desiredCoords, 1,3, (float*)diffSphCoords);
  
- float diffSphCoordsDeg[1][3];
- Matrix.Multiply((float*)diffSphCoords,(float*)piArray,1,3,3,(float*)diffSphCoordsDeg);
+ //float diffSphCoordsDeg[1][3];
+ Matrix.Scale((float*)diffSphCoords,1,3,float (180/PI));
  
  float newCoordsToUse[1][3];
  
- Matrix.Subtract((float*)desiredDeg, (float*)diffSphCoordsDeg,1,3,(float*)newCoordsToUse);
+ Matrix.Subtract((float*)desiredDeg, (float*)diffSphCoords,1,3,(float*)newCoordsToUse);
  
  
  for (int n=3; n>0; n--) {
@@ -4083,7 +4136,7 @@ void correctCoord(float azimuth, float elevation, float elevAcc, float rollAcc)
         
     }
     
-    if ((newCoordsToUse[1][n]  > 359.999) && (newCoordsToUse[1][n]  < 360.001)){
+    if ((newCoordsToUse[1][n]  > 359.0) && (newCoordsToUse[1][n]  < 360.1)){
         
         newCoordsToUse[1][n]  = 0;
     }
