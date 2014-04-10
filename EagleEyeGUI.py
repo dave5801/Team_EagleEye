@@ -14,6 +14,10 @@ David Franklin, Senior Design, Embry-Riddle Aeronautical University
 Spring 2014
 '''
 
+'''
+MAIN Gui layout
+'''
+
 class EagleEye_GUI(QtGui.QWidget, Reader):
     def __init__(self):
         super(EagleEye_GUI, self).__init__()
@@ -32,16 +36,9 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
         self.horizontalLayout_2.addLayout(self.gridLayout)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.satBtn = QtGui.QPushButton("Find Satellites")
-
-        #This will eventually open Orbitron
-        #self.OrbBtn = QtGui.QPushButton("Orbit Model")
-
-        #This will eventually the motor control Interface
-        #self.OrbIntBtn = QtGui.QPushButton("Open Motor Interface")
         
         self.horizontalLayout.addWidget(self.scrollArea)
         self.horizontalLayout.addWidget(self.satBtn)
-        #self.horizontalLayout.addWidget(self.OrbIntBtn)
 
         #This will eventually trigger a web parser to get satellite data
         self.satBtn.clicked.connect(self.findSats)
@@ -58,8 +55,11 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
         self.text_file = open("TLE_Output.txt", "w")
         self.name = ' '
         
-
-    #This parses an HTML page containing Satellite data and display as List
+    '''
+    This function parses an HTML page containing Satellite data and display as List
+    It is called when 'Find Satellites' Button is pressed
+    '''
+   
     def findSats(self):
 
         parse_list = self.parser.download_page()
@@ -84,11 +84,16 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
             
     
 
-    #This function will eventually open the Orbitron Motor Control Interface
-    #def openInterface(self):
-     #   print("This is where the motor interface will open eventually")
-    
-    #This function will eventually process TLE data through Sqlite    
+    '''
+
+    This function will display parses an individual satellites TLE from a TLE master list
+    It will also write TLE directly to SATPC32 
+    It will open SATPC32 
+    And finally it will provide a satellites' name, country, and purpose
+
+    '''
+
+
     def list_btn(self):
      
         sender = self.sender()
@@ -115,6 +120,11 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
         #open SATPC32 executable file
         subprocess.call(["C:\Program Files (x86)\SatPC32\SatPC32.exe"])
 
+
+'''
+Function to run the GUI
+
+'''
 def run():
 
     app = QtGui.QApplication(sys.argv)

@@ -7,15 +7,19 @@ Spring 2014
 
 import os.path
 
-#main class
+'''
+MAIN Class
+'''
+
 class Reader(object):
 
 	#constructor
 	def __init__(self):	
 		self.contents  = ''
 		
-
-	#read TLE from a custom textfile
+	'''	
+	#This function reads TLE from a custom textfile
+	'''
 	def Read_TLE(self,sat_name): 
 		
 		#read in TLE master list
@@ -70,6 +74,11 @@ class Reader(object):
 
 		return bio_list
 
+'''
+This main method exists to test the classes functionality
+with sample data
+
+'''
 
 if __name__ == '__main__':
 

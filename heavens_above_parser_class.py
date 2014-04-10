@@ -9,15 +9,19 @@ from BeautifulSoup import BeautifulSoup
 import urllib2
 import re
 
-#main class
+'''
+MAIN Class
+'''
 class Parser(object):
 
 	#constructor
 	def __init__(self, url):	
 		self.url = url
 		self.contents  = ''
-
-	#dowloads and parses main page
+	
+	'''	
+	This function dowloads and parses main page
+	'''
 	def download_page(self):
 		url = urllib2.urlopen(self.url)
 		page_data = url.read()
@@ -49,8 +53,8 @@ class Parser(object):
 				trs = map(lambda x: str(x.text), tr.findAll('td'))
 				for cat, td in zip(categories, trs[1:]):
 					sat[cat] = td
+				
 				#use regular expression to eliminated Rocket Bodies (R/B) and space debris(DEB)	
-				#if not re.search(r'\s(R/B|DEB)\s*(?:\([^\)]+\))?\s*\Z', trs[0]):
 				if not re.search(r'\s(R/B|DEB|Rocket|rocket|Rocket1)*(?:\([^\)]+\))?\s*\Z', trs[0]):
 					satellites[trs[0]] = sat
 
