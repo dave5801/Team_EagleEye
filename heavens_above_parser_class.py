@@ -17,7 +17,7 @@ class Parser(object):
 	#constructor
 	def __init__(self, url):	
 		self.url = url
-		self.contents  = ''
+		#self.contents  = ''
 	
 	'''	
 	This function dowloads and parses main page

@@ -62,9 +62,16 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
    
     def findSats(self):
 
-        parse_list = self.parser.download_page()
+        #parse_list = self.parser.download_page()
         
-        print parse_list
+        #print parse_list
+
+
+        with open('satellites.txt') as f:
+            parse_list = f.readlines()
+
+        #for i in range(len(content)):
+         #   print content[i]
 
         #populate list of buttons with satellites
         for i in range(len(parse_list)):
