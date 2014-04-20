@@ -54,6 +54,8 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
         self.tle_line_o = ""
         self.text_file = open("TLE_Output.txt", "w")
         self.name = ' '
+
+        self.reader = Reader()
         
     '''
     This function parses an HTML page containing Satellite data and display as List
@@ -104,24 +106,35 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
     def list_btn(self):
      
         sender = self.sender()
-        sat_string = sender.text()
+        sat_string = str(sender.text())
+        print 'sat_string = {}'.format(sat_string)
         
         #Get TLE info and basic info to confirm Satellite's identity
         try:
-            print sat_string
+            print "TEST: " +sat_string
             print ' '
-            tle_label = self.Read_TLE(sat_string)
-            bio_label = self.SAT_BIO(sat_string)
-            self.satLabel.setText('Satellite: ' +bio_label[0] + '\nCountry: ' +bio_label[1]+ '\nPurpose: ' +bio_label[2])
-            print bio_label[0]
-            print bio_label[1]
-            print bio_label[2]
+            tle_label = self.reader.Read_TLE(sat_string)
+            print "TLE LIST TEST {}".format(tle_label)
+            #text_file = open("TLE_Output.txt", "w")
+
+            #for item in tle_list:
+             #   text_file.write("%s\n" % item)
+
+            #text_file.close()
+
+
+           # bio_label = self.reader.SAT_BIO(sat_string)
+          #  self.satLabel.setText('Satellite: ' +bio_label[0] + '\nCountry: ' +bio_label[1]+ '\nPurpose: ' +bio_label[2])
+           # print bio_label[0]
+           # print bio_label[1]
+          #  print bio_label[2]
         except ValueError:
                 print sat_string + " not in the list"
                 self.satLabel.setText('No Two Line Element data available. Please Try again')
-
+                raise
         except:
             print "Unexpected Error"
+            raise
         print("TEST")
 
         #open SATPC32 executable file
