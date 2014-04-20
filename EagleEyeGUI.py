@@ -42,7 +42,6 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
 
         #This will eventually trigger a web parser to get satellite data
         self.satBtn.clicked.connect(self.findSats)
-        #self.OrbIntBtn.clicked.connect(self.openInterface)
         self.setGeometry(300, 200, 500, 500)
         self.setWindowTitle('Team Eagle Eye: Recieve-Only EarthStation')
 
@@ -111,23 +110,10 @@ class EagleEye_GUI(QtGui.QWidget, Reader):
         
         #Get TLE info and basic info to confirm Satellite's identity
         try:
-            print "TEST: " +sat_string
-            print ' '
+            
             tle_label = self.reader.Read_TLE(sat_string)
-            print "TLE LIST TEST {}".format(tle_label)
-            #text_file = open("TLE_Output.txt", "w")
-
-            #for item in tle_list:
-             #   text_file.write("%s\n" % item)
-
-            #text_file.close()
-
-
-           # bio_label = self.reader.SAT_BIO(sat_string)
-          #  self.satLabel.setText('Satellite: ' +bio_label[0] + '\nCountry: ' +bio_label[1]+ '\nPurpose: ' +bio_label[2])
-           # print bio_label[0]
-           # print bio_label[1]
-          #  print bio_label[2]
+            
+        
         except ValueError:
                 print sat_string + " not in the list"
                 self.satLabel.setText('No Two Line Element data available. Please Try again')
