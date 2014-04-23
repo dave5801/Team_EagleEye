@@ -919,16 +919,16 @@ void loop() {
   elevation = elevation2;
  
  ///// for testing the new correct Coord Func.///
-  correctCoord((float) 0, (float) 90, (float) elevation_lsm, (float) roll);
+  correctCoord((float) 0, (float) 45, (float) elevation_lsm, (float) roll);
   
-Serial.println("New Azimuth Coord");
- Serial.println(new_azimuth);
-  Serial.println("New Elevation Coord");
- Serial.println(new_elevation);
+//Serial.println("New Azimuth Coord");
+// Serial.println(new_azimuth);
+//  Serial.println("New Elevation Coord");
+// Serial.println(new_elevation);
  
- Serial.println("elev from lsm");
+ Serial.println("Elevation Angle from LSM");
  Serial.println((float)elevation_lsm);
-  Serial.println("roll from lsm");
+  Serial.println("Roll Angle from LSM");
  Serial.println((float)roll);
   
   
@@ -4043,9 +4043,9 @@ void correctCoord(float azimuth, float elevation, float elevAcc, float rollAcc)
  // z is 0
   float dcm[3][3] = {
     
-   {cos(rollAccel)*cos(0)-sin(rollAccel)*sin(elevAccel)*sin(0), cos(rollAccel)*sin(0)+sin(rollAccel)*sin(elevAccel)*cos(0), -sin(rollAccel)*cos(elevAccel)},
-   {-sin(0)*cos(elevAccel),cos(0)*cos(elevAccel),sin(elevAccel)},
-   {sin(rollAccel)*cos(0)+cos(rollAccel)*sin(elevAccel)*sin(0), sin(rollAccel)*sin(0)-cos(rollAccel)*sin(elevAccel)*cos(0), cos(rollAccel)*cos(elevAccel)}
+   {cos(elevAccel)*cos(0)-sin(elevAccel)*sin(rollAccel)*sin(0), cos(elevAccel)*sin(0)+sin(elevAccel)*sin(rollAccel)*cos(0), -sin(elevAccel)*cos(rollAccel)},
+   {-sin(0)*cos(rollAccel),cos(0)*cos(rollAccel),sin(rollAccel)},
+   {sin(elevAccel)*cos(0)+cos(elevAccel)*sin(rollAccel)*sin(0), sin(elevAccel)*sin(0)-cos(elevAccel)*sin(rollAccel)*cos(0), cos(elevAccel)*cos(rollAccel)}
    
   };
   
@@ -4077,8 +4077,8 @@ void correctCoord(float azimuth, float elevation, float elevAcc, float rollAcc)
  float newSphCoords[1][3] = {proj2sphAz, proj2sphEL, proj2sphZ};
  
  /////testing purposes
- String label1 = "newSphCoords";
- Matrix.Print((float*) newSphCoords,1,3,label1);
+// String label1 = "newSphCoords";
+// Matrix.Print((float*) newSphCoords,1,3,label1);
  /////
  float newSphCoordsDeg[1][3];
  
@@ -4088,10 +4088,10 @@ void correctCoord(float azimuth, float elevation, float elevAcc, float rollAcc)
  //float piArray[1][1];
  
  ////testing purposes
- Serial.println("New Az");
- Serial.println((int)newSphCoordsDeg[1][1]);
- Serial.println("New El");
- Serial.println((int)newSphCoordsDeg[1][2]);
+// Serial.println("New Az");
+// Serial.println(newSphCoordsDeg[1][1]);
+// Serial.println("New El");
+// Serial.println(newSphCoordsDeg[1][2]);
  
  /////////
  
@@ -4150,7 +4150,12 @@ void correctCoord(float azimuth, float elevation, float elevAcc, float rollAcc)
   new_azimuth = (int)newCoordsToUse[1][1];
   new_elevation = (int)newCoordsToUse[1][2];
   
-  
+  ///testing purposes
+  Serial.println("New Az to use");
+  Serial.println(new_azimuth);
+   Serial.println("New El to use");
+  Serial.println(new_elevation);
+  ///
   
   
 }
